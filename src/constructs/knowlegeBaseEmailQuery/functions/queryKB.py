@@ -25,7 +25,15 @@ def handler(event, context):
         email_body = message.get_payload(decode=True).decode()
 
     # adjust prompt based on email body
-    prompt = f"Provide an email response to the following email: {email_body}"
+    prompt = f"""
+    You are an intelligent and friendly HR Assistant. You are helping respond to employee emails using verified HR knowledge.
+ 
+    If the information is available in the context, include it in your response. If the information is not available, do not make up any information. Just reply with 'NO_RESPONSE'.
+
+    NOTE: If the email answer is not relevant to the question asked just say "NO_RESPONSE".
+
+    Employee Email: 
+    {email_body}"""
 
     # call Bedrock Knowledge base with RetrieveAndGenerate
     bedrock = boto3.client("bedrock-agent-runtime")
@@ -40,12 +48,16 @@ def handler(event, context):
                     "modelArn": model_arn,
                 },
             },
+            
         )
     except Exception as e:
         response_generated = False
         print(f"Exception: {e}")
 
     if response["ResponseMetadata"]["HTTPStatusCode"] != 200:
+        response_generated = False
+    
+    if response["output"]["text"] == "NO_RESPONSE":
         response_generated = False
 
     print(f"status code= {response['ResponseMetadata']['HTTPStatusCode']}")

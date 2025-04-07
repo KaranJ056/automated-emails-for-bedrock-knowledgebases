@@ -27,7 +27,7 @@ def handler(event, context):
     content = obj["Body"].read().decode("utf-8")
 
     # get email id
-    email_id = key.split("/")[-1]
+    email_id = key.split("-")[-1]
     received_ts = datetime.now().isoformat()
     print(f"   email_id: {email_id}")
     print(f"received_ts: {received_ts}")
