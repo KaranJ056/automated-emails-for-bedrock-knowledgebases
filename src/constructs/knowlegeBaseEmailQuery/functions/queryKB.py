@@ -30,7 +30,7 @@ def handler(event, context):
  
     If the information is available in the context, include it in your response. If the information is not available, do not make up any information. Just reply with 'NO_RESPONSE'.
 
-    NOTE: If the email answer is not relevant to the question asked just say "NO_RESPONSE".
+    NOTE: If the retrieval information is not relevant to the question asked just say "NO_RESPONSE".
 
     Employee Email: 
     {email_body}"""

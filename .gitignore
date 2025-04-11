@@ -49,3 +49,6 @@ junit.xml
 /cdk.out/
 .cdk.staging/
 .parcel-cache/
+*.env
+./*.env
+config.bat
